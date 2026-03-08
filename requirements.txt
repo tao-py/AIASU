@@ -1,0 +1,38 @@
+# Web API framework
+fastapi==0.104.1
+uvicorn==0.24.0
+
+# Machine Learning & AI
+torch==2.1.0
+transformers==4.35.0
+sentence-transformers==2.2.2
+numpy==1.24.3
+
+# Vector Database
+chromadb==0.4.15
+
+# System & Process Management
+psutil==5.9.5
+
+# Input/Output handling
+pynput==1.7.6
+pyperclip==1.8.2
+requests==2.31.0
+
+# Audio/Speech processing
+soundfile==0.12.1
+
+# Cross-platform GUI and UI
+# For macOS
+pyobjc-framework-Cocoa==9.0
+pyobjc-framework-Quartz==9.0
+pyobjc-framework-ApplicationServices==9.0
+
+# For Linux
+python-xlib==0.33
+
+# For Windows
+pywin32==306; sys_platform == 'win32'
+
+# Additional utilities
+typing-extensions==4.8.0

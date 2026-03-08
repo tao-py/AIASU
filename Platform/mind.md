@@ -10,7 +10,6 @@ Accessibility
 菜单栏工具推荐：
 rumps
 
-
 Windows 注意事项
 
 主要接口：
@@ -21,7 +20,6 @@ pywinauto
 UAC权限
 控制高权限程序
 
-
 Linux 注意事项
 
 最大问题：Wayland 安全限制
@@ -30,3 +28,7 @@ Linux 注意事项
 优先支持：
 X11
 Wayland需要：portal API
+
+mac菜单栏运行使用：rumps
+
+实现：后台运行，菜单栏图标

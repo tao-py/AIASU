@@ -42,6 +42,9 @@ AI Input Assistant Studio Ultimate (AIASU)
 ├─ models (本地已下载的模型)
 │   ├─ openai
 │
+├─ Api (FastAPI)
+│   ├─ STT
+│
 ├─ main.py
 
 项目功能：
