@@ -22,6 +22,9 @@ requests==2.31.0
 # Audio/Speech processing
 soundfile==0.12.1
 
+# UI Framework
+PySide6==6.6.0
+
 # Cross-platform GUI and UI
 # For macOS
 pyobjc-framework-Cocoa==9.0

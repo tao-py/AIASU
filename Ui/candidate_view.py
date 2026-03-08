@@ -8,7 +8,7 @@ class CandidateView(QListWidget):
 
         super().__init__()
 
-        self.setFocusPolicy(Qt.NoFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
 
         self.setStyleSheet("""
         QListWidget {
