@@ -24,7 +24,7 @@ from PySide6.QtGui import QFont, QPixmap, QPainter, QColor, QBrush, QPen
 from .base import UIComponent, Position, UITheme, UIConfig, UIState, CandidateItem,QObjectABCMeta
 
 
-class CandidateView(QObject, UIComponent, metaclass=QObjectABCMeta):
+class CandidateView(UIComponent, QObject, metaclass=QObjectABCMeta):
     """候选列表组件 - 支持多选、预览、图标等"""
 
     # 自定义信号
@@ -33,8 +33,7 @@ class CandidateView(QObject, UIComponent, metaclass=QObjectABCMeta):
     selection_changed = Signal(int)  # 选择变更
 
     def __init__(self, name: str = "candidate", config: Optional[UIConfig] = None):
-        QObject.__init__(self)
-        UIComponent.__init__(self, name, config)
+        super().__init__(name, config)
         self._widget = None
         self._list_widget = None
         self._header_label = None

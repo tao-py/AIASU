@@ -34,6 +34,10 @@ class OverlayWindow(WindowComponent):
 
         self._init_window()
 
+    def create_window(self) -> None:
+        """创建窗口"""
+        self._init_window()
+
     def _init_window(self):
         """初始化窗口"""
         self._window = OverlayWindowWidget(self)

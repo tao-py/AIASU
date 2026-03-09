@@ -1,0 +1,11 @@
+{
+  "name": "light",
+  "background_color": "#F2F2F7",
+  "text_color": "#000000",
+  "accent_color": "#007AFF",
+  "border_color": "#C6C6C8",
+  "opacity": 0.95,
+  "border_radius": 12,
+  "font_family": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  "font_size": 14
+}

@@ -1,5 +1,5 @@
 from typing import Optional, Dict, Any
-from PySide6.QtCore import Qt, Signal, QSize, QPropertyAnimation, QEasingCurve
+from PySide6.QtCore import Qt, Signal, QSize, QPropertyAnimation, QEasingCurve, QObject
 from PySide6.QtWidgets import (
     QWidget,
     QVBoxLayout,
@@ -21,10 +21,10 @@ from PySide6.QtGui import (
     QTextCursor,
 )
 
-from .base import UIComponent, Position, UITheme, UIConfig, UIState
+from .base import UIComponent, Position, UITheme, UIConfig, UIState, QObjectABCMeta
 
 
-class InputPreview(UIComponent):
+class InputPreview(UIComponent, QObject, metaclass=QObjectABCMeta):
     """输入预览组件 - 显示输入内容和候选预览"""
 
     # 自定义信号

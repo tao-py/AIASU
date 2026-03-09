@@ -41,3 +41,6 @@ pystray==0.19.5; sys_platform == 'win32'
 
 # Additional utilities
 typing-extensions==4.8.0
+
+# Testing
+pytest==9.0.2

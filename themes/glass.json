@@ -1,0 +1,11 @@
+{
+  "name": "glass",
+  "background_color": "rgba(255, 255, 255, 0.1)",
+  "text_color": "#FFFFFF",
+  "accent_color": "#007AFF",
+  "border_color": "rgba(255, 255, 255, 0.2)",
+  "opacity": 0.9,
+  "border_radius": 16,
+  "font_family": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  "font_size": 14
+}

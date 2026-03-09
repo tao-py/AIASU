@@ -16,7 +16,7 @@ from .base import WindowComponent, Position, UITheme, UIConfig, UIState, Candida
 from .candidate_view import CandidateView
 
 
-class IMEWindow(QObject, WindowComponent, metaclass=QObjectABCMeta):
+class IMEWindow(WindowComponent, QObject, metaclass=QObjectABCMeta):
     """输入法窗口 - 整合候选列表和输入预览"""
 
     # 自定义信号
@@ -25,8 +25,7 @@ class IMEWindow(QObject, WindowComponent, metaclass=QObjectABCMeta):
     ime_hidden = Signal()  # IME隐藏
 
     def __init__(self, name: str = "ime", config: Optional[UIConfig] = None):
-        QObject.__init__(self)
-        WindowComponent.__init__(self, name, config)
+        super().__init__(name, config)
         self._window = None
         self._candidate_view = None
         self._preview_widget = None
@@ -41,6 +40,10 @@ class IMEWindow(QObject, WindowComponent, metaclass=QObjectABCMeta):
         self._follow_cursor_enabled = True
         self._cursor_offset = QPoint(10, 25)
 
+        self._init_window()
+
+    def create_window(self) -> None:
+        """创建窗口"""
         self._init_window()
 
     def _init_window(self):
@@ -197,6 +200,15 @@ class IMEWindow(QObject, WindowComponent, metaclass=QObjectABCMeta):
         self._position = position
         if self._window:
             self._window.move(position.x, position.y)
+
+    def set_content(self, content: Any) -> None:
+        """设置窗口内容"""
+        if isinstance(content, str):
+            self.set_composition_text(content)
+        elif isinstance(content, list):
+            self.set_candidates(content)
+        else:
+            self.set_composition_text(str(content))
 
     def set_composition_text(self, text: str) -> None:
         """设置输入组合文本"""

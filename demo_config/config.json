@@ -1,0 +1,26 @@
+{
+  "ui": {
+    "theme": "glass",
+    "opacity": 0.95,
+    "animation_duration": 200,
+    "max_candidates": 5,
+    "window_padding": 8,
+    "font_size": 14,
+    "follow_cursor": true,
+    "multi_monitor": true,
+    "auto_hide_delay": 3000,
+    "enable_animation": true
+  },
+  "auto_start": false,
+  "check_updates": true,
+  "debug_mode": false,
+  "log_level": "INFO",
+  "cache_size": 1000,
+  "max_history_items": 100,
+  "enable_voice_input": true,
+  "enable_clipboard_monitor": true,
+  "shortcut_toggle": "Ctrl+Shift+Space",
+  "shortcut_settings": "Ctrl+Shift+,",
+  "theme_name": "glass",
+  "language": "zh-CN"
+}

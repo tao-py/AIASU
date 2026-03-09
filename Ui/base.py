@@ -102,12 +102,17 @@ class UIEvent:
 class UIComponent(ABC):
     """UI组件抽象基类"""
 
-    def __init__(self, name: str, config: Optional[UIConfig] = None):
-        self.name = name
-        self.config = config or UIConfig()
+    def __init__(self, name: str = "", config: Optional[UIConfig] = None):
+        if hasattr(self, '_ui_initialized') and self._ui_initialized:
+            return
+        if name:
+            self.name = name
+        if not hasattr(self, 'config'):
+            self.config = config or UIConfig()
         self.state = UIState.HIDDEN
         self._signals = {}
         self._event_handlers: Dict[str, List[Callable]] = {}
+        self._ui_initialized = True
 
     @abstractmethod
     def show(self, position: Optional[Position] = None) -> None:

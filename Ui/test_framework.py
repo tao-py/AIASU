@@ -19,15 +19,15 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QTimer
 
 # 导入UI组件
-from .base import UIConfig, UITheme, Position, CandidateItem
-from .ui_manager import UIManager, SimpleUIManager
-from .overlay_window import OverlayWindow, SimpleOverlayWindow
-from .candidate_view import CandidateView, SimpleCandidateView
-from .ime_window import IMEWindow, SimpleIMEWindow
-from .animation_engine import AnimationEngine, SimpleAnimationEngine
-from .theme_engine import ThemeEngine, SimpleThemeEngine
-from .config_manager import ConfigManager, SimpleConfigManager
-from .input_preview import InputPreview, SimpleInputPreview
+from .base import UIConfig, UITheme, Position, CandidateItem, UIEvent
+from .ui_manager import UIManager
+from .overlay_window import OverlayWindow
+from .candidate_view import CandidateView
+from .ime_window import IMEWindow
+from .animation_engine import AnimationEngine
+from .theme_engine import ThemeEngine
+from .config_manager import ConfigManager
+from .input_preview import InputPreview
 
 
 class UITestSuite:
@@ -100,15 +100,8 @@ class UITestSuite:
         assert len(ui_manager.list_components()) == 2
 
         # 测试事件处理
-        test_event = type(
-            "UIEvent",
-            (),
-            {
-                "event_type": "text_input",
-                "data": {"text": "test"},
-                "timestamp": time.time(),
-            },
-        )()
+        test_event = UIEvent("text_input", {"text": "test"})
+        test_event.timestamp = time.time()
 
         ui_manager.process_input_event(test_event)
 
@@ -336,15 +329,8 @@ class UITestSuite:
         ui_manager.update_theme("dark")
 
         # 2. 模拟输入事件
-        test_event = type(
-            "UIEvent",
-            (),
-            {
-                "event_type": "text_input",
-                "data": {"text": "integration_test"},
-                "timestamp": time.time(),
-            },
-        )()
+        test_event = UIEvent("text_input", {"text": "integration_test"})
+        test_event.timestamp = time.time()
 
         ui_manager.process_input_event(test_event)
 
