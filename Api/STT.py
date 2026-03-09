@@ -155,6 +155,15 @@ def create_api_app(voice_app):
     """创建FastAPI应用，集成VoiceTypingApp"""
     app = FastAPI(title="Voice Typing API", version="1.0.0")
     
+    @app.get("/health")
+    async def health():
+        """健康检查端点"""
+        return {"status": "healthy", "message": "Voice Typing API is running!"}
+    
+    @app.get("/")
+    async def root():
+        return {"message": "Voice Typing API is running!", "status": "ok"}
+    
     @app.post("/transcribe/")
     async def transcribe_audio(file: UploadFile = File(...)):
         """接收音频文件并返回转录文本"""
