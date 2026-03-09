@@ -1,4 +1,4 @@
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 from PySide6.QtCore import (
     Qt,
     QPoint,
@@ -12,6 +12,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QGraphicsDropShadowE
 from PySide6.QtGui import QPainter, QColor, QBrush, QPen, QFont, QPainterPath, QRegion
 
 from .base import WindowComponent, Position, UITheme, UIConfig, UIState
+from .candidate_view import CandidateView, CandidateItem
 
 
 class OverlayWindow(WindowComponent):
@@ -21,6 +22,7 @@ class OverlayWindow(WindowComponent):
         super().__init__(name, config)
         self._window = None
         self._content_widget = None
+        self._candidate_view: Optional[CandidateView] = None
         self._background_opacity = 0.95
         self._border_radius = 12
         self._shadow_enabled = True
@@ -67,14 +69,15 @@ class OverlayWindow(WindowComponent):
 
         # 创建布局
         layout = QVBoxLayout(self._content_widget)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(10)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(5)
 
-        # 添加占位标签
-        placeholder = QLabel("Overlay Window Content")
-        placeholder.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        placeholder.setObjectName("placeholder_label")
-        layout.addWidget(placeholder)
+        # 创建候选视图
+        self._candidate_view = CandidateView(config=self.config)
+        layout.addWidget(self._candidate_view._widget)
+
+        # 连接信号
+        self._candidate_view.candidate_selected.connect(self._on_candidate_selected)
 
         # 设置内容区域样式
         self._update_content_style()
@@ -110,6 +113,15 @@ class OverlayWindow(WindowComponent):
 
         print("Overlay window hidden")
 
+    def _on_candidate_selected(self, text: str) -> None:
+        """候选被选中"""
+        print(f"Candidate selected: {text}")
+        self.hide()
+
+    def run(self):
+        """运行UI（由main.py调用）"""
+        pass  # UI事件循环由QApplication管理
+
     def update_theme(self, theme: UITheme) -> None:
         """更新主题"""
         self._current_theme = theme
@@ -134,29 +146,26 @@ class OverlayWindow(WindowComponent):
             self._window.move(position.x, position.y)
 
     def set_content(self, content: Any) -> None:
-        """设置窗口内容"""
-        if not self._content_widget:
+        """设置窗口内容（UIComponent抽象方法）"""
+        # 现在使用candidate_view，这个方法保留但可能不使用
+        if self._candidate_view and isinstance(content, list):
+            # 如果内容是候选列表，直接设置
+            from .base import CandidateItem
+            if all(isinstance(c, CandidateItem) for c in content):
+                self._candidate_view.set_candidates(content)
+
+    def show_candidates(self, candidates: List[CandidateItem]) -> None:
+        """显示候选列表"""
+        if not self._candidate_view:
             return
 
-        # 清除现有内容
-        layout = self._content_widget.layout()
-        if layout:
-            while layout.count():
-                child = layout.takeAt(0)
-                if child.widget():
-                    child.widget().deleteLater()
+        # 设置候选数据
+        self._candidate_view.set_candidates(candidates)
 
-        # 添加新内容
-        if hasattr(content, "widget"):
-            layout.addWidget(content.widget())
-        elif hasattr(content, "show"):
-            layout.addWidget(content)
-        else:
-            # 默认处理 - 创建标签显示内容
-            label = QLabel(str(content))
-            label.setWordWrap(True)
-            label.setObjectName("content_label")
-            layout.addWidget(label)
+        # 显示窗口
+        self.show()
+
+        print(f"Overlay showing {len(candidates)} candidates")
 
     def get_preferred_size(self) -> QSize:
         """获取推荐尺寸"""
@@ -272,30 +281,10 @@ class OverlayWindow(WindowComponent):
 
     def _update_content_style(self) -> None:
         """更新内容区域样式"""
-        if not self._content_widget or not self._current_theme:
+        if not self._content_widget:
             return
-
-        style_sheet = f"""
-        QWidget#content_area {{
-            background-color: {self._current_theme.background_color};
-            border-radius: {self._border_radius}px;
-            border: 1px solid {self._current_theme.border_color};
-        }}
-        
-        QLabel {{
-            color: {self._current_theme.text_color};
-            font-family: {self._current_theme.font_family};
-            font-size: {self._current_theme.font_size}px;
-            background: transparent;
-        }}
-        
-        QLabel#placeholder_label {{
-            color: {self._current_theme.text_color};
-            opacity: 0.6;
-        }}
-        """
-
-        self._content_widget.setStyleSheet(style_sheet)
+        # 内容区域样式由CandidateView自己管理
+        self._content_widget.setStyleSheet("")
 
     def _update_shadow_effect(self) -> None:
         """更新阴影效果"""
@@ -322,13 +311,10 @@ class OverlayWindow(WindowComponent):
             return self._window.geometry()
         return QRect()
 
-    def move_to_cursor(self, cursor_pos: Position) -> None:
-        """移动到光标位置"""
-        super().move_to_cursor(cursor_pos)
-
-        # 添加偏移量，避免遮挡光标
-        offset_pos = Position(cursor_pos.x, cursor_pos.y + 20)
-        self.set_position(offset_pos)
+    def _on_candidate_selected(self, text: str) -> None:
+        """候选被选中"""
+        print(f"Candidate selected: {text}")
+        self.hide()
 
 
 class OverlayWindowWidget(QWidget):
