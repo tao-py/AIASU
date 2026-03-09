@@ -12,11 +12,11 @@ from PySide6.QtCore import (
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTextEdit
 from PySide6.QtGui import QFont, QPainter, QColor, QBrush, QPen, QPainterPath, QRegion
 
-from .base import WindowComponent, Position, UITheme, UIConfig, UIState, CandidateItem
+from .base import WindowComponent, Position, UITheme, UIConfig, UIState, CandidateItem,QObjectABCMeta
 from .candidate_view import CandidateView
 
 
-class IMEWindow(QObject, WindowComponent):
+class IMEWindow(QObject, WindowComponent, metaclass=QObjectABCMeta):
     """输入法窗口 - 整合候选列表和输入预览"""
 
     # 自定义信号

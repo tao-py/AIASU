@@ -5,6 +5,14 @@ from enum import Enum
 from PySide6.QtCore import QObject, Signal, QPoint, QRect, QSize
 from PySide6.QtGui import QColor, QFont, QPixmap
 
+# 获取 QObject 的元类
+QObjectMeta = type(QObject)
+
+# 创建组合元类
+class QObjectABCMeta(QObjectMeta, type(ABC)):
+    """组合 QObject 的元类和 ABCMeta，解决多重继承冲突"""
+    pass
+
 
 class UIState(Enum):
     """UI组件状态枚举"""
@@ -265,6 +273,7 @@ class PositionManager(ABC):
 
 class UIManagerInterface(ABC):
     """UI管理器接口"""
+    # 注意：这里不指定元类，将在需要时使用 QObjectABCMeta
 
     @abstractmethod
     def register_component(self, component: UIComponent) -> None:
@@ -328,3 +337,4 @@ class MenuBarInterface(ABC):
     def quit(self) -> None:
         """退出应用"""
         pass
+    

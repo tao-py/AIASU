@@ -21,10 +21,10 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QFont, QPixmap, QPainter, QColor, QBrush, QPen
 
-from .base import UIComponent, Position, UITheme, UIConfig, UIState, CandidateItem
+from .base import UIComponent, Position, UITheme, UIConfig, UIState, CandidateItem,QObjectABCMeta
 
 
-class CandidateView(QObject, UIComponent):
+class CandidateView(QObject, UIComponent, metaclass=QObjectABCMeta):
     """候选列表组件 - 支持多选、预览、图标等"""
 
     # 自定义信号

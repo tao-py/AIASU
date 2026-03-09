@@ -15,10 +15,11 @@ from .base import (
     AnimationController,
     ThemeManager,
     PositionManager,
+    QObjectABCMeta
 )
 
 
-class UIManager(QObject, UIManagerInterface):
+class UIManager(QObject, UIManagerInterface, metaclass=QObjectABCMeta):
     """UI管理器 - 统一管理所有UI组件"""
 
     # 定义信号

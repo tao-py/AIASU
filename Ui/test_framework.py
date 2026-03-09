@@ -7,13 +7,14 @@ UI层测试框架和示例
 import sys
 import time
 import threading
-from typing import List, Optional
+from typing import List, Optional, Dict
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
     QPushButton,
     QVBoxLayout,
     QWidget,
+    QLabel,
 )
 from PySide6.QtCore import Qt, QTimer
 
