@@ -22,6 +22,7 @@ from ..utils.helpers import (
     assert_theme_applied,
     create_test_event,
     wait_for_condition,
+    process_events_for,
 )
 from ..utils.mock_objects import MockWidget
 
@@ -103,10 +104,17 @@ class TestOverlayWindow:
 
     def test_visibility_check(self, overlay):
         """测试可见性检查"""
-        assert not overlay.is_visible()
-        overlay.show()
-        assert overlay.is_visible()
+        # 确保初始隐藏
         overlay.hide()
+        process_events_for(0.2)  # 等待隐藏动画完成
+        assert not overlay.is_visible()
+        
+        overlay.show()
+        process_events_for(0.2)  # 等待显示动画完成
+        assert overlay.is_visible()
+        
+        overlay.hide()
+        process_events_for(0.2)  # 等待隐藏动画完成
         assert not overlay.is_visible()
 
 

@@ -238,11 +238,37 @@ class ThemeEngine(ThemeManager):
 
         # rgba(R, G, B, A)
         if color.startswith("rgba(") and color.endswith(")"):
-            return True
+            try:
+                # 提取括号内的内容
+                inner = color[5:-1]
+                values = [v.strip() for v in inner.split(",")]
+                if len(values) != 4:
+                    return False
+                # R, G, B 应该是0-255的整数
+                r = int(values[0])
+                g = int(values[1])
+                b = int(values[2])
+                # A 应该是0.0-1.0的浮点数
+                a = float(values[3])
+                return 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255 and 0.0 <= a <= 1.0
+            except (ValueError, IndexError):
+                return False
 
         # rgb(R, G, B)
         if color.startswith("rgb(") and color.endswith(")"):
-            return True
+            try:
+                # 提取括号内的内容
+                inner = color[4:-1]
+                values = [v.strip() for v in inner.split(",")]
+                if len(values) != 3:
+                    return False
+                # R, G, B 应该是0-255的整数
+                r = int(values[0])
+                g = int(values[1])
+                b = int(values[2])
+                return 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255
+            except (ValueError, IndexError):
+                return False
 
         return False
 

@@ -235,12 +235,26 @@ class TestThemeEngine:
 
     def test_theme_persistence(self, theme_engine, temp_themes_dir):
         """测试主题持久化"""
+        # 创建自定义主题并保存
+        custom_theme = UITheme(
+            name="persist_test",
+            background_color="#123456",
+            text_color="#654321",
+            accent_color="#ABCDEF",
+            border_color="#FEDCBA",
+            opacity=0.8,
+            border_radius=15,
+            font_family="TestFont",
+            font_size=16,
+        )
+        theme_engine.save_theme(custom_theme)
+
         # 创建新主题引擎实例
         new_engine = ThemeEngine(temp_themes_dir)
 
         # 验证之前保存的主题仍然存在
         themes = new_engine.list_themes()
-        assert "test_save" in themes  # 假设之前保存过这个主题
+        assert "persist_test" in themes
 
 
 class TestSimpleThemeEngine:
@@ -287,10 +301,13 @@ class TestSimpleThemeEngine:
         "rgb(255, 255, 255)",  # RGB
     ],
 )
-def test_valid_color_formats(theme_engine, color):
+def test_valid_color_formats(color):
     """测试有效颜色格式"""
-    result = theme_engine._is_valid_color(color)
-    assert result is True
+    import tempfile
+    with tempfile.TemporaryDirectory() as temp_dir:
+        engine = ThemeEngine(temp_dir)
+        result = engine._is_valid_color(color)
+        assert result is True
 
 
 @pytest.mark.parametrize(
@@ -304,7 +321,10 @@ def test_valid_color_formats(theme_engine, color):
         "",  # 空字符串
     ],
 )
-def test_invalid_color_formats(theme_engine, color):
+def test_invalid_color_formats(color):
     """测试无效颜色格式"""
-    result = theme_engine._is_valid_color(color)
-    assert result is False
+    import tempfile
+    with tempfile.TemporaryDirectory() as temp_dir:
+        engine = ThemeEngine(temp_dir)
+        result = engine._is_valid_color(color)
+        assert result is False

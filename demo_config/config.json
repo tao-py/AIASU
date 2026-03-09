@@ -1,6 +1,6 @@
 {
   "ui": {
-    "theme": "glass",
+    "theme": "default",
     "opacity": 0.95,
     "animation_duration": 200,
     "max_candidates": 5,
@@ -21,6 +21,6 @@
   "enable_clipboard_monitor": true,
   "shortcut_toggle": "Ctrl+Shift+Space",
   "shortcut_settings": "Ctrl+Shift+,",
-  "theme_name": "glass",
+  "theme_name": "default",
   "language": "zh-CN"
 }
