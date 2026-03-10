@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 导入模块
 from Api import STT
-from Voice.Ui import voice_rumps
+from Voice.Ui import voice_rumps_macos
 
 class VoiceTTinput:
     def __init__(self):
@@ -40,7 +40,7 @@ class VoiceTTinput:
         
         # 主线程: 启动菜单栏应用（会阻塞）
         print("✅ 启动菜单栏应用...")
-        self.menu_app = voice_rumps.VoiceServiceApp()
+        self.menu_app = voice_rumps_macos.VoiceServiceApp()
         self.menu_app.run()
     
     def _run_api_server(self):
